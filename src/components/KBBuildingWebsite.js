@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Menu, X, Phone, Mail, MapPin, Check, Hammer, Wrench, Paintbrush } from 'lucide-react';
+import KBQuoteChatbot from './KBQuoteChatbot';
 
 const KBBuildingWebsite = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -79,6 +80,12 @@ const KBBuildingWebsite = () => {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
+  };
+
+  const openChatbot = () => {
+    // This will be handled by passing a ref or callback to the chatbot component
+    const event = new CustomEvent('openKBChatbot');
+    window.dispatchEvent(event);
   };
 
   const scrollToSection = (sectionId) => {
@@ -161,7 +168,7 @@ const KBBuildingWebsite = () => {
         <div 
           className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1920&h=1080&fit=crop')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&h=1080&fit=crop')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundBlendMode: 'overlay'
@@ -180,7 +187,7 @@ const KBBuildingWebsite = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
-              onClick={() => scrollToSection('contact')}
+              onClick={openChatbot}
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl"
             >
               Get Your Free Quote
@@ -507,6 +514,9 @@ const KBBuildingWebsite = () => {
           </div>
         </div>
       </footer>
+
+      {/* Quote Chatbot */}
+      <KBQuoteChatbot />
     </div>
   );
 };
