@@ -5,6 +5,8 @@ import KBQuoteChatbot from './KBQuoteChatbot';
 const KBBuildingWebsite = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState(null);
 
   // Portfolio images - replace with your actual project photos
   const portfolioItems = [
@@ -86,6 +88,18 @@ const KBBuildingWebsite = () => {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
+  };
+
+  const openLightbox = (image, title, description) => {
+    setLightboxImage({ image, title, description });
+    setLightboxOpen(true);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    setLightboxImage(null);
+    document.body.style.overflow = 'unset'; // Restore scrolling
   };
 
   const openChatbot = () => {
@@ -264,58 +278,135 @@ const KBBuildingWebsite = () => {
             </p>
           </div>
           
-          <div className="relative max-w-4xl mx-auto">
-            <div className="overflow-hidden rounded-2xl shadow-2xl">
-              <div 
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              >
-                {portfolioItems.map((item, index) => (
-                  <div key={item.id} className="w-full flex-shrink-0 relative">
-                    <img 
-                      src={item.image} 
-                      alt={item.title}
-                      className="w-full h-96 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    <div className="absolute bottom-6 left-6 text-white">
-                      <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
-                      <p className="text-gray-200">{item.description}</p>
+          {/* Grid Layout for Desktop, Carousel for Mobile */}
+          <div className="block md:hidden">
+            {/* Mobile Carousel */}
+            <div className="relative max-w-sm mx-auto">
+              <div className="overflow-hidden rounded-2xl shadow-lg">
+                <div 
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                >
+                  {portfolioItems.map((item, index) => (
+                    <div key={item.id} className="w-full flex-shrink-0 relative">
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-64 object-cover cursor-pointer"
+                        onClick={() => openLightbox(item.image, item.title, item.description)}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      <div className="absolute bottom-4 left-4 text-white">
+                        <h3 className="text-lg font-bold mb-1">{item.title}</h3>
+                        <p className="text-sm text-gray-200">{item.description}</p>
+                      </div>
                     </div>
-                  </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Mobile Navigation */}
+              <button 
+                onClick={prevSlide}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all duration-300"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button 
+                onClick={nextSlide}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all duration-300"
+              >
+                <ChevronRight size={20} />
+              </button>
+              
+              {/* Mobile Dots */}
+              <div className="flex justify-center mt-6 space-x-2">
+                {portfolioItems.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentSlide ? 'bg-blue-600 w-6' : 'bg-gray-300'
+                    }`}
+                  />
                 ))}
               </div>
             </div>
-            
-            {/* Navigation Buttons */}
-            <button 
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-blue-900 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button 
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-blue-900 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-            >
-              <ChevronRight size={24} />
-            </button>
-            
-            {/* Dots Indicator */}
-            <div className="flex justify-center mt-8 space-x-2">
-              {portfolioItems.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide ? 'bg-blue-600 w-8' : 'bg-gray-300'
-                  }`}
-                />
-              ))}
-            </div>
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {portfolioItems.map((item, index) => (
+              <div 
+                key={item.id}
+                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                onClick={() => openLightbox(item.image, item.title, item.description)}
+              >
+                <div className="aspect-w-4 aspect-h-3 relative">
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                </div>
+                
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-blue-300 transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                    {item.description}
+                  </p>
+                </div>
+
+                {/* Hover border effect */}
+                <div className="absolute inset-0 border-2 border-blue-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* Lightbox Modal */}
+      {lightboxOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4">
+          <div className="relative max-w-5xl max-h-full">
+            {/* Close Button */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 z-10 bg-white/20 hover:bg-white/30 text-white rounded-full p-2 transition-all duration-200"
+            >
+              <X size={24} />
+            </button>
+            
+            {/* Image */}
+            <img
+              src={lightboxImage?.image}
+              alt={lightboxImage?.title}
+              className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
+            />
+            
+            {/* Image Info */}
+            {(lightboxImage?.title || lightboxImage?.description) && (
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white rounded-b-lg">
+                {lightboxImage?.title && (
+                  <h3 className="text-2xl font-bold mb-2">{lightboxImage.title}</h3>
+                )}
+                {lightboxImage?.description && (
+                  <p className="text-gray-200">{lightboxImage.description}</p>
+                )}
+              </div>
+            )}
+          </div>
+          
+          {/* Click outside to close */}
+          <div 
+            className="absolute inset-0 -z-10" 
+            onClick={closeLightbox}
+          ></div>
+        </div>
+      )}
 
       {/* About Section */}
       <section id="about" className="py-20 bg-gradient-to-br from-blue-50 to-white">
