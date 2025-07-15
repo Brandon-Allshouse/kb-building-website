@@ -10,27 +10,33 @@ const KBBuildingWebsite = () => {
   const portfolioItems = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop",
-      title: "Modern Kitchen Renovation",
-      description: "Complete kitchen transformation with custom cabinetry and premium finishes"
+      image: `${process.env.PUBLIC_URL}/images/portfolio/project1.jpg`,
+      title: "Project 1",
+      description: "Professional construction and renovation work"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop",
-      title: "Living Room Makeover",
-      description: "Elegant living space renovation with custom trim work and painting"
+      image: `${process.env.PUBLIC_URL}/images/portfolio/project2.jpg`,
+      title: "Project 2", 
+      description: "Quality craftsmanship and attention to detail"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&h=600&fit=crop",
-      title: "Bathroom Remodel",
-      description: "Luxurious bathroom upgrade with modern fixtures and flooring"
+      image: `${process.env.PUBLIC_URL}/images/portfolio/project3.jpg`,
+      title: "Project 3",
+      description: "Expert installation and finishing work"
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop",
-      title: "Office Space Design",
-      description: "Professional workspace with custom built-ins and drywall finishing"
+      image: `${process.env.PUBLIC_URL}/images/portfolio/project4.jpg`,
+      title: "Project 4",
+      description: "Custom solutions tailored to your needs"
+    },
+    {
+      id: 5,
+      image: `${process.env.PUBLIC_URL}/images/portfolio/project5.jpg`,
+      title: "Project 5",
+      description: "Professional results that exceed expectations"
     }
   ];
 
