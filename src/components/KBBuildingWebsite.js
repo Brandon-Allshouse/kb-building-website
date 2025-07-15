@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Menu, X, Phone, Mail, MapPin, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Menu, X, Phone, Mail, MapPin, Check, Hammer, Wrench, Paintbrush } from 'lucide-react';
 
 const KBBuildingWebsite = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   // Portfolio images - replace with your actual project photos
   const portfolioItems = [
     {
       id: 1,
-      image: "/images/portfolio/project1.jpg",
+      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop",
       title: "Modern Kitchen Renovation",
       description: "Complete kitchen transformation with custom cabinetry and premium finishes"
     },
     {
       id: 2,
-      image: "/images/portfolio/project2.jpg",
+      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop",
       title: "Living Room Makeover",
       description: "Elegant living space renovation with custom trim work and painting"
     },
     {
       id: 3,
-      image: "/images/portfolio/project3.jpg",
+      image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&h=600&fit=crop",
       title: "Bathroom Remodel",
       description: "Luxurious bathroom upgrade with modern fixtures and flooring"
     },
     {
       id: 4,
-      image: "/images/portfolio/project4.jpg",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop",
       title: "Office Space Design",
       description: "Professional workspace with custom built-ins and drywall finishing"
     }
@@ -36,38 +35,36 @@ const KBBuildingWebsite = () => {
 
   const services = [
     {
+      icon: <Wrench className="w-8 h-8" />,
       title: "Drywall Installation & Finishing",
       description: "Expert installation and finishing for perfectly smooth, paint-ready walls with meticulous attention to every detail and seamless joints."
     },
     {
+      icon: <Paintbrush className="w-8 h-8" />,
       title: "Premium Painting Services",
       description: "High-quality interior and exterior painting using premium materials and techniques for durable, beautiful finishes that last."
     },
     {
+      icon: <Hammer className="w-8 h-8" />,
       title: "Flooring Installation",
       description: "Professional installation of laminate, vinyl, and luxury flooring solutions with precise fitting and lasting durability."
     },
     {
+      icon: <Wrench className="w-8 h-8" />,
       title: "Precision Trim & Molding",
       description: "Detailed trim work and custom molding installation for that perfect finishing touch that elevates any space."
     },
     {
+      icon: <Hammer className="w-8 h-8" />,
       title: "Custom Renovations",
       description: "Comprehensive renovation projects from concept to completion, transforming spaces to match your exact vision and needs."
     },
     {
+      icon: <Check className="w-8 h-8" />,
       title: "Project Consultation",
       description: "Expert guidance and detailed planning services to ensure your project is completed on time, on budget, and beyond expectations."
     }
   ];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -95,22 +92,22 @@ const KBBuildingWebsite = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
-      }`}>
+      <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-sm shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            {/* Logo - Top Left */}
+            {/* Logo */}
             <div className="flex-shrink-0">
-              <img 
-                src={`${process.env.PUBLIC_URL}/images/kb-logo.png`}
-                alt="KB Building Innovations Logo" 
-                className="h-20 w-auto bg-white/90 rounded-lg px-3 py-2 shadow-lg"
-                onError={(e) => {
-                  console.log('Logo failed to load');
-                  e.target.style.display = 'none';
-                }}
-              />
+              <div className="flex items-center space-x-4">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/images/kb-logo.png`}
+                  alt="KB Building Innovations Logo" 
+                  className="h-24 w-auto"
+                />
+                <div className="text-blue-900">
+                  <h1 className="text-2xl font-bold">KB Building</h1>
+                  <p className="text-base opacity-80">Innovations</p>
+                </div>
+              </div>
             </div>
             
             {/* Desktop Menu */}
@@ -120,9 +117,7 @@ const KBBuildingWebsite = () => {
                   <button
                     key={item}
                     onClick={() => scrollToSection(item.toLowerCase())}
-                    className={`px-3 py-2 text-sm font-medium transition-colors duration-300 hover:text-blue-400 ${
-                      isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white'
-                    }`}
+                    className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300"
                   >
                     {item}
                   </button>
@@ -134,9 +129,7 @@ const KBBuildingWebsite = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 rounded-md transition-colors duration-300 ${
-                  isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-400'
-                }`}
+                className="p-2 rounded-md text-gray-700 hover:text-blue-600 transition-colors duration-300"
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -178,17 +171,6 @@ const KBBuildingWebsite = () => {
         
         {/* Hero Content */}
         <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-          <div className="mb-8">
-            <img 
-              src={`${process.env.PUBLIC_URL}/images/kb-logo.png`}
-              alt="KB Building Innovations Logo" 
-              className="h-32 w-auto mx-auto mb-6 filter brightness-0 invert"
-              onError={(e) => {
-                console.log('Hero logo failed to load');
-                e.target.style.display = 'none';
-              }}
-            />
-          </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             Building Excellence
             <span className="block text-blue-300 text-3xl md:text-5xl mt-2">One Project at a Time</span>
@@ -238,9 +220,16 @@ const KBBuildingWebsite = () => {
                 key={index}
                 className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-l-4 border-blue-600"
               >
-                <h3 className="text-xl font-bold text-blue-900 mb-4">
-                  {service.title}
-                </h3>
+                <div className="flex items-center mb-4">
+                  <div className="bg-blue-100 p-3 rounded-lg mr-4">
+                    <div className="text-blue-600">
+                      {service.icon}
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-blue-900">
+                    {service.title}
+                  </h3>
+                </div>
                 <p className="text-gray-600 leading-relaxed">
                   {service.description}
                 </p>
@@ -467,17 +456,9 @@ const KBBuildingWebsite = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center mb-6">
-                <img 
-                  src={`${process.env.PUBLIC_URL}/images/kb-logo.png`}
-                  alt="KB Building Innovations Logo" 
-                  className="h-12 w-auto mr-4"
-                  onError={(e) => {
-                    console.log('Footer logo failed to load');
-                    e.target.style.display = 'none';
-                  }}
-                />
-                <h3 className="text-2xl font-bold">KB Building Innovations</h3>
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold mb-2">KB Building Innovations</h3>
+                <p className="text-gray-400 text-sm">Professional Contracting Solutions</p>
               </div>
               <p className="text-gray-300 mb-4 max-w-md">
                 Transforming spaces with expertise in drywall, painting, flooring, trim work, and renovations. 
