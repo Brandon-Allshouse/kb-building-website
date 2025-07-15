@@ -453,13 +453,9 @@ const KBBuildingWebsite = () => {
           </div>
           
           <div className="text-center">
-            <a 
-              href="tel:+17246989643"
-              className="inline-flex items-center bg-white text-blue-900 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              <Phone size={20} className="mr-2" />
-              Call Now for Free Quote
-            </a>
+            <p className="text-lg text-blue-200">
+              Contact us today for a free consultation and estimate.
+            </p>
           </div>
         </div>
       </section>
